@@ -140,22 +140,22 @@
 						{{ form_widget(form.houseType) }}
 
 						<div class="radio-group">
-							{{ form_label(form.hasAlarm, 'Le logement possède-t-il une alarme ?') }}<span class="req">*</span>
+							{{ form_label(form.hasAlarm, 'Le logement possède-t-il une alarme ?', {'label_attr': {'class': 'legend'}}) }}<span class="req">*</span>
 							{{ form_widget(form.hasAlarm, {'attr': {'data-group-title': 'Le logement possède-t-il une alarme ?'}}) }}
 						</div>
 
 						<div class="radio-group">
-							{{ form_label(form.hasAlarmExt, 'Le logement possède-t-il une alarme extérieure ?') }}<span class="req">*</span>
+							{{ form_label(form.hasAlarmExt, 'Le logement possède-t-il une alarme extérieure ?', {'label_attr': {'class': 'legend'}}) }}<span class="req">*</span>
 							{{ form_widget(form.hasAlarmExt) }}
 						</div>
 
 						<div class="radio-group">
-							{{ form_label(form.hasCamera, 'Le logement possède-t-il une caméra ?') }}<span class="req">*</span>
+							{{ form_label(form.hasCamera, 'Le logement possède-t-il une caméra ?' , {'label_attr': {'class': 'legend'}}) }}<span class="req">*</span>
 							{{ form_widget(form.hasCamera) }}
 						</div>
 
 						<div class="radio-group">
-							{{ form_label(form.hasAnimal, 'Présence d\'un animal ?') }}<span class="req">*</span>
+							{{ form_label(form.hasAnimal, 'Présence d\'un animal ?', {'label_attr': {'class': 'legend'}}) }}<span class="req">*</span>
                         {{ form_widget(form.hasAnimal) }}
                         </div>
 
@@ -204,11 +204,13 @@
                     <legend>Personne à prévenir n°1</legend>
                     <div class="form-group col-md-6">
                         {{ form_row(form.emergency_civility_1) }}
-                        {{ form_row(form.emergency_lastname_1) }}
-                        {{ form_row(form.emergency_firstname_1) }}
+                        {{ form_label(form.emergency_lastname_1) }}<span class="req"> *</span>
+                        {{ form_widget(form.emergency_lastname_1) }}
+                        {{ form_label(form.emergency_firstname_1) }}<span class="req"> *</span>
+                        {{ form_widget(form.emergency_firstname_1) }}
                     </div>
                     <div class="form-group col-md-6">
-                        {{ form_label(form.emergency_mobilePhone_1, 'Téléphone mobile') }}
+                        {{ form_label(form.emergency_mobilePhone_1, 'Téléphone mobile') }}<span class="req"> *</span>
                         {{ form_widget(form.emergency_mobilePhone_1) }}
                         {{ form_row(form.emergency_landlinePhone_1) }}
                         {{ form_row(form.emergency_email_1) }}
@@ -225,11 +227,13 @@
                 <legend>Personne à prévenir n°2</legend>
                     <div class="form-group col-md-6">
                         {{ form_row(form.emergency_civility_2) }}
-                        {{ form_row(form.emergency_lastname_2) }}
-                        {{ form_row(form.emergency_firstname_2) }}
+                        {{ form_label(form.emergency_lastname_2) }}<span class="req"> *</span>
+                        {{ form_widget(form.emergency_lastname_2) }}
+                        {{ form_label(form.emergency_firstname_2) }}<span class="req"> *</span>
+                        {{ form_widget(form.emergency_firstname_2) }}
                     </div>
                     <div class="form-group col-md-6">
-                        {{ form_label(form.emergency_mobilePhone_2, 'Téléphone mobile') }}
+                        {{ form_label(form.emergency_mobilePhone_2, 'Téléphone mobile') }}<span class="req"> *</span>
                         {{ form_widget(form.emergency_mobilePhone_2) }}
                         {{ form_row(form.emergency_landlinePhone_2) }}
                         {{ form_row(form.emergency_email_2) }}
@@ -248,11 +252,13 @@
 
                     <div class="form-group col-md-6">
                         {{ form_row(form.emergency_civility_3) }}
-                        {{ form_row(form.emergency_lastname_3) }}
-                        {{ form_row(form.emergency_firstname_3) }}
+                        {{ form_label(form.emergency_lastname_3) }}<span class="req"> *</span>
+                        {{ form_widget(form.emergency_lastname_3) }}
+                        {{ form_label(form.emergency_firstname_3) }}<span class="req"> *</span>
+                        {{ form_widget(form.emergency_firstname_3) }}
                     </div>
                     <div class="form-group col-md-6">
-                        {{ form_label(form.emergency_mobilePhone_3, 'Téléphone mobile') }}
+                        {{ form_label(form.emergency_mobilePhone_3, 'Téléphone mobile') }}<span class="req"> *</span>
                         {{ form_widget(form.emergency_mobilePhone_3) }}
                         {{ form_row(form.emergency_landlinePhone_3) }}
                         {{ form_row(form.emergency_email_3) }}
@@ -298,7 +304,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.6/dist/autoComplete.min.js"></script>
 <script src="{{ asset('assets/js/addressAuto.js') }}"></script>
 <script src="{{ asset('assets/js/formSubmit.js') }}"></script>
-<script src="{{ asset('assets/js/layout.js') }}"></script>
+<script type="module" src="{{ asset('assets/js/main.js') }}"></script>
 
 
 

@@ -60,42 +60,117 @@ $(document).ready(function () {
     }
   });
 
-  // Ajoutez un gestionnaire d'événements pour les clics sur les champs d'entrée
   $("input, select, textarea").focus(function () {
     $(this).removeClass("is-invalid");
-    $(this).closest(".invalid-feedback").hide();
+    $(this).next(".invalid-feedback").hide();
   });
 
-  function validateSection(index) {
-    const inputs = sections.eq(index).find("input, select, textarea");
-    let valid = true;
-    inputs.each(function () {
-      const input = $(this);
-      if (!this.checkValidity()) {
-        valid = false;
-        input.addClass("is-invalid");
-        const errorMessage = input.next(".invalid-feedback");
-        if (errorMessage.length > 0) {
-          errorMessage.show().text(this.validationMessage);
-        } else {
-          input.after(
-            `<div class="invalid-feedback">${this.validationMessage}</div>`
-          );
-        }
-        console.log("Invalid input:", this);
-      } else {
-        input.removeClass("is-invalid");
-        input.next(".invalid-feedback").hide();
-      }
+  function validateStartDate(startDateInput, twoDaysLater) {
+    const startDate = new Date(startDateInput.val());
+    if (startDate < twoDaysLater) {
+      startDateInput.addClass("is-invalid");
+      const errorMessage = startDateInput.next(".invalid-feedback");
+      const message = "La demande doit être effectuée au moins 48h avant la date de départ.";
 
-      // Custom regex validation
-      const value = input.val();
+      if (errorMessage.length > 0) {
+        errorMessage.show().text(message);
+      } else {
+        startDateInput.after(`<div class="invalid-feedback">${message}</div>`);
+      }
+      return false;
+    } else {
+      startDateInput.removeClass("is-invalid");
+      startDateInput.next(".invalid-feedback").hide();
+      return true;
+    }
+  }
+
+  function validateEndDateAfterStartDate(startDateInput, endDateInput) {
+    const startDate = new Date(startDateInput.val());
+    const endDate = new Date(endDateInput.val());
+    console.log("Start Date:", startDate);  // Log pour vérifier la date de début
+    console.log("End Date:", endDate); // Log pour vérifier la date de fin
+
+    if (startDate > endDate) {
+      endDateInput.addClass("is-invalid");
+      const errorMessage = endDateInput.next(".invalid-feedback");
+      const message = "La date de fin doit être postérieure à la date de début.";
+
+      if (errorMessage.length > 0) {
+        errorMessage.show().text(message);
+      } else {
+        endDateInput.after(`<div class="invalid-feedback">${message}</div>`);
+      }
+      return false;
+    } else {
+      endDateInput.removeClass("is-invalid");
+      endDateInput.next(".invalid-feedback").hide();
+      return true;
+    }
+  }
+
+  function validateMaxInterval(startDateInput, endDateInput, maxInterval) {
+    const startDate = new Date(startDateInput.val());
+    const endDate = new Date(endDateInput.val());
+
+    if (endDate - startDate > maxInterval) {
+      endDateInput.addClass("is-invalid");
+      const errorMessage = endDateInput.next(".invalid-feedback");
+      const message = "La durée maximale de 3 semaines est dépassée.";
+
+      if (errorMessage.length > 0) {
+        errorMessage.show().text(message);
+      } else {
+        endDateInput.after(`<div class="invalid-feedback">${message}</div>`);
+      }
+      return false;
+    } else {
+      endDateInput.removeClass("is-invalid");
+      endDateInput.next(".invalid-feedback").hide();
+      return true;
+    }
+  }
+
+  function validateInput(input) {
+    let valid = true;
+    const isRequired = input.prop("required");
+    const value = input.val();
+
+    if (!input[0].checkValidity()) {
+      valid = false;
+      input.addClass("is-invalid");
+      const errorMessage = input.next(".invalid-feedback");
+      const message = input[0].validationMessage;
+
+      if (errorMessage.length > 0) {
+        errorMessage.show().text(message);
+      } else {
+        input.after(`<div class="invalid-feedback">${message}</div>`);
+      }
+    } else {
+      input.removeClass("is-invalid");
+      input.next(".invalid-feedback").hide();
+    }
+
+    if (isRequired && !value) {
+      valid = false;
+      input.addClass("is-invalid");
+      const errorMessage = input.next(".invalid-feedback");
+      const message = "Ce champ est requis.";
+
+      if (errorMessage.length > 0) {
+        errorMessage.show().text(message);
+      } else {
+        input.after(`<div class="invalid-feedback">${message}</div>`);
+      }
+    }
+
+    if (value) {
       let regex, message;
 
-      switch (this.name) {
+      switch (input.attr("name")) {
         case "mobilePhone":
-          regex =
-            /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/;
+          regex = /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/;
           message = "Veuillez entrer un numéro de téléphone mobile valide.";
           break;
         case "email":
@@ -104,8 +179,7 @@ $(document).ready(function () {
           break;
         case "file":
           regex = /\.(pdf|jpeg|png|gif|svg)$/i;
-          message =
-            "Veuillez sélectionner un fichier PDF, JPEG, PNG, GIF ou SVG valide.";
+          message = "Veuillez sélectionner un fichier PDF, JPEG, PNG, GIF ou SVG valide.";
           break;
         default:
           regex = null;
@@ -122,7 +196,32 @@ $(document).ready(function () {
           input.after(`<div class="invalid-feedback">${message}</div>`);
         }
       }
+    }
+    return valid;
+  }
+
+  function validateSection(index) {
+    const inputs = sections.eq(index).find("input, select, textarea");
+    let valid = true;
+    const now = new Date();
+    const twoDaysLater = new Date(now.getTime() + 48 * 60 * 60 * 1000);
+    const maxInterval = 21 * 24 * 60 * 60 * 1000; // 3 weeks in milliseconds
+
+    inputs.each(function () {
+      if (!validateInput($(this))) {
+        valid = false;
+      }
     });
+
+    const startDateInput = sections.eq(index).find('input[name="start_Date"]');
+    const endDateInput = sections.eq(index).find('input[name="end_Date"]');
+
+    if (startDateInput.length > 0 && endDateInput.length > 0) {
+      if (!validateStartDate(startDateInput, twoDaysLater)) valid = false;
+     else if (!validateEndDateAfterStartDate(startDateInput, endDateInput)) valid = false;
+     else if (!validateMaxInterval(startDateInput, endDateInput, maxInterval)) valid = false;
+    }
+
     return valid;
   }
 
@@ -135,9 +234,7 @@ $(document).ready(function () {
 
     formData.forEach(function (field) {
       const inputElement = $('[name="' + field.name + '"]');
-      let label = $('label[for="' + field.name + '"]')
-        .text()
-        .trim();
+      let label = $('label[for="' + field.name + '"]').text().trim();
       let value = field.value;
 
       if (field.name === "file") {
@@ -152,18 +249,26 @@ $(document).ready(function () {
         value = inputElement.prop("checked") ? "Oui" : "Non";
       } else if (inputElement.is(":radio")) {
         const groupName = inputElement.attr("name");
-        const groupTitle = inputElement
-          .closest(".radio-group")
-          .next("label")
-          .text()
-          .trim();
         const selectedRadio = $('input[name="' + groupName + '"]:checked');
-        value = selectedRadio.next("label").text().trim();
-        label = groupTitle;
+        const groupLegend = selectedRadio.closest(".radio-group").find("label").text().trim();
+        const selectedRadioLabel = selectedRadio.next("label").text().trim();
+        label = groupLegend; // Ajoutez un point d'interrogation à la fin du libellé du groupe
+        value = selectedRadioLabel; // Utilisez la valeur du bouton radio sélectionné
       }
 
       if (field.name === "district" && value === "default_district_value") {
         return;
+      }
+
+      // Convert date to d-m-Y format
+      if (inputElement.attr("type") === "date") {
+        const date = new Date(value);
+        value =
+          ("0" + date.getDate()).slice(-2) +
+          "-" +
+          ("0" + (date.getMonth() + 1)).slice(-2) +
+          "-" +
+          date.getFullYear();
       }
 
       recapHtml += `<li><strong>${label} :</strong> ${value}</li>`;
@@ -176,8 +281,10 @@ $(document).ready(function () {
   $("#addEmergencyContactBtn").click(function () {
     if ($(".emergency-contact1").is(":hidden")) {
       $(".emergency-contact1").show();
-    } else if ($(".additional-contact2").is(":hidden")) {
-      $(".additional-contact2").show();
+    } else if ($(".emergency-contact2").is(":hidden")) {
+      $(".emergency-contact2").show();
+    } else if ($(".emergency-contact3").is(":hidden")) {
+      $(".emergency-contact3").show();
       $(this).hide();
     }
   });

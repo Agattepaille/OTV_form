@@ -241,7 +241,7 @@ class otvType extends AbstractType
             ->add('start_Date', DateType::class, [
                 'label' => 'Date de Début',
                 'required' => true,
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-control', 'id' => 'start_Date'],
                 'constraints' => [
                     new Assert\NotBlank(['message' => 'Veuillez sélectionner une date de départ.']), 
                     new GreaterThanOrEqual('today')
@@ -251,7 +251,7 @@ class otvType extends AbstractType
             ->add('end_Date', DateType::class, [
                 'label' => 'Date de Fin',
                 'required' => true,
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-control', 'id' => 'end_Date'],
                 'constraints' => [
                     new NotBlank(['message' => 'Veuillez saisir la date de retour.']),
                     new DateRange(),
