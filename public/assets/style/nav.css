@@ -1,0 +1,16 @@
+/* Style pour les onglets inactifs */
+#navTabs a.nav-link {
+    color: #888; /* Couleur grise pour les onglets inactifs */
+    background-color: transparent; /* Fond transparent pour les onglets inactifs */
+}
+
+/* Style pour l'onglet actif */
+#navTabs a.nav-link.active {
+    color: #fff; /* Texte blanc pour l'onglet actif */
+    background-color: #007bff; /* Fond bleu pour l'onglet actif */
+}
+
+
+#navTabs {
+    margin: 0;
+}
