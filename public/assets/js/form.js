@@ -1,6 +1,7 @@
 $(document).ready(function () {
   const sections = $(".form-section");
   let currentSectionIndex = 0;
+  const maxFileSize = 5 * 1024 * 1024; // 5 MB in bytes
 
   sections.hide();
   sections.eq(currentSectionIndex).show();
@@ -70,7 +71,8 @@ $(document).ready(function () {
     if (startDate < twoDaysLater) {
       startDateInput.addClass("is-invalid");
       const errorMessage = startDateInput.next(".invalid-feedback");
-      const message = "La demande doit être effectuée au moins 48h avant la date de départ.";
+      const message =
+        "La demande doit être effectuée au moins 48h avant la date de départ.";
 
       if (errorMessage.length > 0) {
         errorMessage.show().text(message);
@@ -88,13 +90,14 @@ $(document).ready(function () {
   function validateEndDateAfterStartDate(startDateInput, endDateInput) {
     const startDate = new Date(startDateInput.val());
     const endDate = new Date(endDateInput.val());
-    console.log("Start Date:", startDate);  // Log pour vérifier la date de début
+    console.log("Start Date:", startDate); // Log pour vérifier la date de début
     console.log("End Date:", endDate); // Log pour vérifier la date de fin
 
     if (startDate > endDate) {
       endDateInput.addClass("is-invalid");
       const errorMessage = endDateInput.next(".invalid-feedback");
-      const message = "La date de fin doit être postérieure à la date de début.";
+      const message =
+        "La date de fin doit être postérieure à la date de début.";
 
       if (errorMessage.length > 0) {
         errorMessage.show().text(message);
@@ -170,7 +173,8 @@ $(document).ready(function () {
 
       switch (input.attr("name")) {
         case "mobilePhone":
-          regex = /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/;
+          regex =
+            /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/;
           message = "Veuillez entrer un numéro de téléphone mobile valide.";
           break;
         case "email":
@@ -179,7 +183,8 @@ $(document).ready(function () {
           break;
         case "file":
           regex = /\.(pdf|jpeg|png|gif|svg)$/i;
-          message = "Veuillez sélectionner un fichier PDF, JPEG, PNG, GIF ou SVG valide.";
+          message =
+            "Veuillez sélectionner un fichier PDF, JPEG, PNG, GIF ou SVG valide.";
           break;
         default:
           regex = null;
@@ -197,6 +202,25 @@ $(document).ready(function () {
         }
       }
     }
+
+    // Additional file size validation
+    if (input.attr("type") === "file" && input[0].files.length > 0) {
+      const file = input[0].files[0];
+      if (file.size > maxFileSize) {
+        valid = false;
+        input.addClass("is-invalid");
+        const errorMessage = input.next(".invalid-feedback");
+        const message =
+          "Le fichier dépasse la taille maximale autorisée de 5 Mo.";
+
+        if (errorMessage.length > 0) {
+          errorMessage.show().text(message);
+        } else {
+          input.after(`<div class="invalid-feedback">${message}</div>`);
+        }
+      }
+    }
+
     return valid;
   }
 
@@ -218,8 +242,10 @@ $(document).ready(function () {
 
     if (startDateInput.length > 0 && endDateInput.length > 0) {
       if (!validateStartDate(startDateInput, twoDaysLater)) valid = false;
-     else if (!validateEndDateAfterStartDate(startDateInput, endDateInput)) valid = false;
-     else if (!validateMaxInterval(startDateInput, endDateInput, maxInterval)) valid = false;
+      else if (!validateEndDateAfterStartDate(startDateInput, endDateInput))
+        valid = false;
+      else if (!validateMaxInterval(startDateInput, endDateInput, maxInterval))
+        valid = false;
     }
 
     return valid;
@@ -234,7 +260,9 @@ $(document).ready(function () {
 
     formData.forEach(function (field) {
       const inputElement = $('[name="' + field.name + '"]');
-      let label = $('label[for="' + field.name + '"]').text().trim();
+      let label = $('label[for="' + field.name + '"]')
+        .text()
+        .trim();
       let value = field.value;
 
       if (field.name === "file") {
@@ -250,7 +278,11 @@ $(document).ready(function () {
       } else if (inputElement.is(":radio")) {
         const groupName = inputElement.attr("name");
         const selectedRadio = $('input[name="' + groupName + '"]:checked');
-        const groupLegend = selectedRadio.closest(".radio-group").find("label").text().trim();
+        const groupLegend = selectedRadio
+          .closest(".radio-group")
+          .find("label")
+          .text()
+          .trim();
         const selectedRadioLabel = selectedRadio.next("label").text().trim();
         label = groupLegend; // Ajoutez un point d'interrogation à la fin du libellé du groupe
         value = selectedRadioLabel; // Utilisez la valeur du bouton radio sélectionné

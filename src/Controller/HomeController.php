@@ -3,14 +3,15 @@
 namespace App\Controller;
 
 use App\Form\otvType;
-use App\Services\SendDataService;
+use App\Services\SendData;
+use App\Services\SendMail;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class HomeController extends AbstractController
 {
@@ -19,16 +20,20 @@ class HomeController extends AbstractController
     }
 
     #[Route('/', name: 'app_home', methods: ['GET', 'POST'])]
-    public function index(LoggerInterface $logger, Request $request, SendDataService $dataService, HttpClientInterface $client): Response
+    public function index(SendMail $sendMail, LoggerInterface $logger, Request $request, SendData $dataService, HttpClientInterface $client): Response
     {
         $form = $this->createForm(otvType::class);
         $form->handleRequest($request);
-        
-        /*  if ($form->isSubmitted() && $form->isValid()) {
+
+        if ($form->isSubmitted()) {
             $formData = $form->getData();
             $logger->info('Form data submitted.', $formData);
+            if (!$form->isValid()) {
+                $this->addFlash('error', 'Veuillez vérifier les données saisies.');
+                return $this->redirectToRoute('app_home');
+            }
 
-           // Récupérer le fichier PDF
+            // Récupérer le fichier PDF
             $pdfFile = $form->get('file')->getData();
             $logger->info('PDF file uploaded.' . $pdfFile->getClientOriginalName());
             if (!$pdfFile) {
@@ -45,12 +50,41 @@ class HomeController extends AbstractController
                 return $this->redirectToRoute('app_home');
             }
 
-            // Enregistrez vos données et le fichier PDF dans la base de données ou où vous en avez besoin
-            $this->addFlash('success', 'Les données ont été envoyées avec succès.');
+            try {
+                // Envoi de l'email de confirmation
+                $logoPolice = $sendMail->imageToBase64($this->getParameter('kernel.project_dir') . '/public/assets/images/Logo_Police_Municipale__France_.webp');
+                $from = new Address('noreply@marcq-en-baroeul');
+                $toUser = $formData['email'];
+                $subject = 'Confirmation de votre demande d\'Opération Tranquillité Vacances';
+                $template = 'confirmation';
+                $context = [
+                    'lastname' => $formData['lastname'],
+                    'firstname' => $formData['firstname'],
+                    'startDate' => $formData['start_Date']->format('d-m-Y'),
+                    'endDate' => $formData['end_Date']->format('d-m-Y'),
+                    'street' => $formData['street'],
+                    'streetNumber' => $formData['streetNumber'],
+                    'additionalStreetNumber' => $formData['additionalStreetNumber'],
+                    'additionalAddressInfo' => $formData['additionalAddressInfo'],
+                    'district' => $formData['district'],
+                    'logoPolice' => $logoPolice,
+                ];
+
+                $sendMail->send(
+                    $from,
+                    $toUser,
+                    $subject,
+                    $template,
+                    $context
+                );
+
+                $this->addFlash('success', 'Votre demande a bien été envoyée.');
+            } catch (\Exception $e) {
+                $logger->error('Erreur lors de l\'envoi de l\'email: ' . $e->getMessage());
+                $this->addFlash('warning', 'Les données ont été envoyées, mais un problème est survenu lors de l\'envoi de l\'email de confirmation.');
+            }
             return $this->redirectToRoute('app_home');
-        } else {
-            $logger->info('Form data not submitted.');
-        } */
+        }
 
         return $this->render('home/index.html.twig', [
             'form' => $form->createView(),
