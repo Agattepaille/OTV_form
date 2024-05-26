@@ -11,12 +11,14 @@ use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 class SendData
 {
     private $apiKey;
+    private $params;
     private $client;
     private $logger;
 
-    public function __construct(ContainerBagInterface $params, HttpClientInterface $client, LoggerInterface $logger)
+    public function __construct(string $apiKey, ContainerBagInterface $params, HttpClientInterface $client, LoggerInterface $logger)
     {
-        $this->apiKey = $params->get('API_KEY');
+        $this->apiKey = $apiKey;
+        $this->params = $params;
         $this->client = $client;
         $this->logger = $logger;
     }
@@ -35,7 +37,7 @@ class SendData
         try {
             // Envoyer la requête POST avec les données et le fichier
             $response = $this->client->request('POST', $apiUrl, [
-                'headers' => [
+              'headers' => [
                     'Authorization' => 'Bearer ' . $this->apiKey,
                 ],
                 'body' => [

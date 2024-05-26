@@ -44,13 +44,7 @@ class HomeController extends AbstractController
             try {
                 $apiUrl = 'https://127.0.0.1:8001/otv/new';
                 $dataService->sendData($formData, $pdfFile, $apiUrl);
-            } catch (\Exception $e) {
-                $logger->error($e->getMessage());
-                $this->addFlash('error', 'Échec de l\'envoi des données.');
-                return $this->redirectToRoute('app_home');
-            }
 
-            try {
                 // Envoi de l'email de confirmation
                 $logoPolice = $sendMail->imageToBase64($this->getParameter('kernel.project_dir') . '/public/assets/images/Logo_Police_Municipale__France_.webp');
                 $from = new Address('noreply@marcq-en-baroeul');
@@ -80,9 +74,12 @@ class HomeController extends AbstractController
 
                 $this->addFlash('success', 'Votre demande a bien été envoyée.');
             } catch (\Exception $e) {
-                $logger->error('Erreur lors de l\'envoi de l\'email: ' . $e->getMessage());
-                $this->addFlash('warning', 'Les données ont été envoyées, mais un problème est survenu lors de l\'envoi de l\'email de confirmation.');
+                $logger->error($e->getMessage());
+                $this->addFlash('error', 'Échec de l\'envoi des données2.');
+                return $this->redirectToRoute('app_home');
             }
+
+
             return $this->redirectToRoute('app_home');
         }
 
