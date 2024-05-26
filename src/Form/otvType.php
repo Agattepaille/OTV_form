@@ -7,7 +7,9 @@ use App\Validator\Constraints\DateRange;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -20,7 +22,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
-use Symfony\Component\Validator\Constraints as Assert;
+// use Symfony\Component\Validator\Constraints;
 
 
 class otvType extends AbstractType
@@ -43,9 +45,8 @@ class otvType extends AbstractType
                     'class' => 'form-control',
                 ],
                 'constraints' => [
-                    new Assert\NotBlank(['message' => 'Veuillez saisir votre nom.'])
-                ], 
-                'invalid_message' => 'Veuillez saisir votre nom.'
+                    new NotBlank(['message' => 'Veuillez saisir votre nom.'])
+                ],
             ])
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
@@ -54,7 +55,7 @@ class otvType extends AbstractType
                     'class' => 'form-control'
                 ],
                 'constraints' => [
-                    new Assert\NotBlank(['message' => 'Veuillez saisir votre prénom.'])
+                    new NotBlank(['message' => 'Veuillez saisir votre prénom.'])
                 ]
             ])
             ->add('district', ChoiceType::class, [
@@ -73,7 +74,7 @@ class otvType extends AbstractType
                 'placeholder' => 'Veuillez sélectionner un quartier',
                 'attr' => ['class' => 'form-control'],
                 'constraints' => [
-                    new Assert\NotBlank(['message' => 'Veuillez choisir une option.'])
+                    new NotBlank(['message' => 'Veuillez choisir une option.'])
                 ]
             ])
             ->add('street', TextType::class, [
@@ -81,7 +82,7 @@ class otvType extends AbstractType
                 'required' => true,
                 'attr' => ['class' => 'form-control'],
                 'constraints' => [
-                    new Assert\NotBlank(['message' => 'Veuillez saisir votre rue.'])
+                    new NotBlank(['message' => 'Veuillez saisir votre rue.'])
                 ]
             ])
             ->add('streetNumber', TextType::class, [
@@ -104,8 +105,8 @@ class otvType extends AbstractType
                 'required' => true,
                 'attr' => ['class' => 'form-control'],
                 'constraints' => [
-                        new Assert\NotBlank(['message' => 'Veuillez saisir votre numéro de téléphone.']),
-                        new Regex([
+                    new NotBlank(['message' => 'Veuillez saisir votre numéro de téléphone.']),
+                    new Regex([
                         //Le pattern prends en compte différents format de numéro de téléphone français: 0123456789, 01 23 45 67, 89 01.23.45.67.89, 0123 45.67.89, 0033 123-456-789, +33-1.23.45.67.89, +33 - 123 456 789, +33(0) 123 456 789, +33 (0)123 45 67 89, +33 (0)1 2345-6789, +33(0) - 123456789
                         'pattern' => '/^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/',
                         'message' => 'Veuillez entrer un numéro de téléphone mobile valide.'
@@ -128,12 +129,8 @@ class otvType extends AbstractType
                 'required' => true,
                 'attr' => ['class' => 'form-control'],
                 'constraints' => [
-                    new Assert\NotBlank(['message' => 'Veuillez saisir votre courriel.']),
-                    new Assert\Email(['message' => 'Veuillez entrer une adresse email valide.']),
-                    new Regex([
-                        'pattern' => '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
-                        'message' => 'Veuillez entrer une adresse email valide.'
-                    ])
+                    new NotBlank(['message' => 'Veuillez saisir votre courriel.']),
+                    new Email(['message' => 'Veuillez entrer une adresse email valide.']),
                 ]
             ])
             ->add('authorization', CheckboxType::class, [
@@ -150,7 +147,7 @@ class otvType extends AbstractType
                 ],
                 'required' => true,
                 'constraints' => [
-                    new Assert\NotBlank(['message' => 'Veuillez sélectionner un type de logement'])
+                    new NotBlank(['message' => 'Veuillez sélectionner un type de logement'])
                 ],
                 'placeholder' => 'Veuillez sélectionner un type de logement',
                 'attr' => ['class' => 'form-control']
@@ -166,7 +163,7 @@ class otvType extends AbstractType
                 'required' => true,
                 'attr' => ['class' => 'form-check form-check-inline'],
                 'constraints' => [
-                    new Assert\NotBlank(['message' => 'Veuillez sélectionner une option.'])
+                    new NotNull(['message' => 'Veuillez sélectionner une option.'])
                 ],
             ])
             ->add('hasAlarmExt', ChoiceType::class, [
@@ -180,7 +177,7 @@ class otvType extends AbstractType
                 'required' => true,
                 'attr' => ['class' => 'form-check form-check-inline'],
                 'constraints' => [
-                    new Assert\NotBlank(['message' => 'Veuillez sélectionner une option.'])
+                    new NotNull(['message' => 'Veuillez sélectionner une option.'])
                 ],
             ])
             ->add('hasCamera', ChoiceType::class, [
@@ -194,7 +191,7 @@ class otvType extends AbstractType
                 'required' => true,
                 'attr' => ['class' => 'form-check form-check-inline'],
                 'constraints' => [
-                    new Assert\NotBlank(['message' => 'Veuillez sélectionner une option.'])
+                    new NotNull(['message' => 'Veuillez sélectionner une option.'])
                 ],
             ])
             ->add('hasAnimal', ChoiceType::class, [
@@ -208,7 +205,7 @@ class otvType extends AbstractType
                 'required' => true,
                 'attr' => ['class' => 'form-check form-check-inline'],
                 'constraints' => [
-                    new Assert\NotBlank(['message' => 'Veuillez sélectionner une option.'])
+                    new NotNull(['message' => 'Veuillez sélectionner une option.'])
                 ],
             ])
             ->add('blindsSchedule', TimeType::class, [
@@ -241,21 +238,21 @@ class otvType extends AbstractType
             ->add('start_Date', DateType::class, [
                 'label' => 'Date de Début',
                 'required' => true,
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-control', 'id' => 'start_Date'],
                 'constraints' => [
-                    new Assert\NotBlank(['message' => 'Veuillez sélectionner une date de départ.']), 
-                    new GreaterThanOrEqual('today')
-                ],
+                    new NotBlank(['message' => 'Veuillez sélectionner une date de départ.']),
+                    // new GreaterThanOrEqual('today')
+                ]
             ])
-            
+
             ->add('end_Date', DateType::class, [
                 'label' => 'Date de Fin',
                 'required' => true,
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-control', 'id' => 'end_Date'],
                 'constraints' => [
                     new NotBlank(['message' => 'Veuillez saisir la date de retour.']),
-                    new DateRange(),
-                ],
+                    // new DateRange(),
+                ]
             ])
 
             ->add('emergency_civility_1', TextType::class, [
@@ -389,12 +386,14 @@ class otvType extends AbstractType
 
             ->add('file', FileType::class, [
                 'label' => 'Fichier',
-                'attr' => ['class' => 'form-control',
-                'id' => 'file',
-                'accept' => '.pdf, .jpeg, .png, .gif, .svg'],
+                'attr' => [
+                    'class' => 'form-control',
+                    'id' => 'file',
+                    'accept' => '.pdf, .jpeg, .png, .gif, .svg'
+                ],
                 'constraints' => [
                     new File([
-                        'maxSize' => '2k',
+                        'maxSize' => '1000k',
                         'mimeTypes' => [
                             'application/pdf',
                             'application/x-pdf',
@@ -404,7 +403,7 @@ class otvType extends AbstractType
                             'image/svg+xml'
                         ],
                         'mimeTypesMessage' => 'Veuillez sélectionner un fichier PDF, JPEG, PNG, GIF ou SVG valide.'
-                    ]), 
+                    ]),
                     new NotBlank(['message' => 'Veuillez sélectionner un fichier.'])
                 ]
             ]);
@@ -417,12 +416,15 @@ class otvType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_protection' => true,
-            'data_class' => Residents::class,
+            // 'data_class' => Residents::class,
         ]);
     }
 
+    /**
+     * @return string
+     */
     public function getBlockPrefix()
-{
-    return '';
-}
+    {
+        return '';
+    }
 }

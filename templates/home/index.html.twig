@@ -32,9 +32,9 @@
 	</ul>
 </div>
 
-<div class="pageWrapper">
+<div class="container-fluid center-form">
 	<div
-		class="container shadow-sm pt-5 pl-5 pr-5 m-5 card">
+		class="shadowBox pt-5 pl-5 pr-5 m-5 card">
 		<!-- Formulaire avec les sections -->
 		{{ form_start(form, { 'attr': {'id': 'otvForm'} }) }}
 		{{ form_errors(form) }}
@@ -129,36 +129,38 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <div class="form-check mb-3">
-                            <legend>Autorisation :<span class="req"> *</span></legend>
-                            {{ form_widget(form.authorization, {'attr': {'class': 'form-check-input' ~ (form.authorization.vars.data ? ' checked' : '')}}) }}
-                            {{ form_label(form.authorization, 'Le Propriétaire autorise la Police Municipale à pénétrer sur sa propriété dès qu\'elle le jugera utile', {'label_attr': {'class': 'form-check-label'}}) }}
+                            <h4>Autorisation<span class="req"> *</span></h4>
+                            {{ form_label(form.authorization, 'Le Propriétaire autorise la Police Municipale à pénétrer sur sa propriété dès qu\'elle le jugera utile', {'label_attr': {'class': 'form-check-label mr-4'}}) }}
+							{{ form_widget(form.authorization, {'attr': {'class': 'form-check-input' ~ (form.authorization.vars.data ? ' checked' : '')}}) }}
+							<h4 class="mt-4 mb-4">Détails sur le lieu</h4>
+							{{ form_label(form.houseType, 'Type de logement') }}
+							{{ form_widget(form.houseType) }}
+
+							<div class="radio-group">
+								{{ form_label(form.hasAlarm, 'Le logement possède-t-il une alarme ?', {'label_attr': {'class': 'legend'}}) }}<span class="req">*</span>
+								{{ form_widget(form.hasAlarm, {'attr': {'data-group-title': 'Le logement possède-t-il une alarme ?'}}) }}
+							</div>
+
+							<div class="radio-group">
+								{{ form_label(form.hasAlarmExt, 'Le logement possède-t-il une alarme extérieure ?', {'label_attr': {'class': 'legend'}}) }}<span class="req">*</span>
+								{{ form_widget(form.hasAlarmExt) }}
+							</div>
+
+							<div class="radio-group">
+								{{ form_label(form.hasCamera, 'Le logement possède-t-il une caméra ?' , {'label_attr': {'class': 'legend'}}) }}<span class="req">*</span>
+								{{ form_widget(form.hasCamera) }}
+							</div>
+
+							<div class="radio-group">
+								{{ form_label(form.hasAnimal, 'Présence d\'un animal ?', {'label_attr': {'class': 'legend'}}) }}<span class="req">*</span>
+                                {{ form_widget(form.hasAnimal) }}
+                            </div>
+                        
 						</div>
 					</div>
 
 					<div class="form-group col-md-6">
-						{{ form_label(form.houseType, 'Type de logement') }}
-						{{ form_widget(form.houseType) }}
-
-						<div class="radio-group">
-							{{ form_label(form.hasAlarm, 'Le logement possède-t-il une alarme ?') }}<span class="req">*</span>
-							{{ form_widget(form.hasAlarm, {'attr': {'data-group-title': 'Le logement possède-t-il une alarme ?'}}) }}
-						</div>
-
-						<div class="radio-group">
-							{{ form_label(form.hasAlarmExt, 'Le logement possède-t-il une alarme extérieure ?') }}<span class="req">*</span>
-							{{ form_widget(form.hasAlarmExt) }}
-						</div>
-
-						<div class="radio-group">
-							{{ form_label(form.hasCamera, 'Le logement possède-t-il une caméra ?') }}<span class="req">*</span>
-							{{ form_widget(form.hasCamera) }}
-						</div>
-
-						<div class="radio-group">
-							{{ form_label(form.hasAnimal, 'Présence d\'un animal ?') }}<span class="req">*</span>
-                        {{ form_widget(form.hasAnimal) }}
-                        </div>
-
+						
                         {{ form_row(form.blindsSchedule) }}
                         {{ form_row(form.lightsSchedule) }}
                         {{ form_row(form.car) }}
@@ -204,11 +206,13 @@
                     <legend>Personne à prévenir n°1</legend>
                     <div class="form-group col-md-6">
                         {{ form_row(form.emergency_civility_1) }}
-                        {{ form_row(form.emergency_lastname_1) }}
-                        {{ form_row(form.emergency_firstname_1) }}
+                        {{ form_label(form.emergency_lastname_1) }}<span class="req"> *</span>
+                        {{ form_widget(form.emergency_lastname_1) }}
+                        {{ form_label(form.emergency_firstname_1) }}<span class="req"> *</span>
+                        {{ form_widget(form.emergency_firstname_1) }}
                     </div>
                     <div class="form-group col-md-6">
-                        {{ form_label(form.emergency_mobilePhone_1, 'Téléphone mobile') }}
+                        {{ form_label(form.emergency_mobilePhone_1, 'Téléphone mobile') }}<span class="req"> *</span>
                         {{ form_widget(form.emergency_mobilePhone_1) }}
                         {{ form_row(form.emergency_landlinePhone_1) }}
                         {{ form_row(form.emergency_email_1) }}
@@ -225,11 +229,13 @@
                 <legend>Personne à prévenir n°2</legend>
                     <div class="form-group col-md-6">
                         {{ form_row(form.emergency_civility_2) }}
-                        {{ form_row(form.emergency_lastname_2) }}
-                        {{ form_row(form.emergency_firstname_2) }}
+                        {{ form_label(form.emergency_lastname_2) }}<span class="req"> *</span>
+                        {{ form_widget(form.emergency_lastname_2) }}
+                        {{ form_label(form.emergency_firstname_2) }}<span class="req"> *</span>
+                        {{ form_widget(form.emergency_firstname_2) }}
                     </div>
                     <div class="form-group col-md-6">
-                        {{ form_label(form.emergency_mobilePhone_2, 'Téléphone mobile') }}
+                        {{ form_label(form.emergency_mobilePhone_2, 'Téléphone mobile') }}<span class="req"> *</span>
                         {{ form_widget(form.emergency_mobilePhone_2) }}
                         {{ form_row(form.emergency_landlinePhone_2) }}
                         {{ form_row(form.emergency_email_2) }}
@@ -248,11 +254,13 @@
 
                     <div class="form-group col-md-6">
                         {{ form_row(form.emergency_civility_3) }}
-                        {{ form_row(form.emergency_lastname_3) }}
-                        {{ form_row(form.emergency_firstname_3) }}
+                        {{ form_label(form.emergency_lastname_3) }}<span class="req"> *</span>
+                        {{ form_widget(form.emergency_lastname_3) }}
+                        {{ form_label(form.emergency_firstname_3) }}<span class="req"> *</span>
+                        {{ form_widget(form.emergency_firstname_3) }}
                     </div>
                     <div class="form-group col-md-6">
-                        {{ form_label(form.emergency_mobilePhone_3, 'Téléphone mobile') }}
+                        {{ form_label(form.emergency_mobilePhone_3, 'Téléphone mobile') }}<span class="req"> *</span>
                         {{ form_widget(form.emergency_mobilePhone_3) }}
                         {{ form_row(form.emergency_landlinePhone_3) }}
                         {{ form_row(form.emergency_email_3) }}
@@ -287,7 +295,7 @@
                     <div id="recapContent"></div>
                 <div class="d-flex justify-content-between mb-3">
                     <button type="button" class="btn btn-secondary mt-3 btn_previous">Retour</button>
-                    <button type="submit" class="btn btn-success mt-3">Soumettre</button>
+                    <button id="submit" type="submit" class="btn btn-success mt-3">Soumettre</button>
                 </div>
             </div>
         </div>
@@ -297,8 +305,10 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.6/dist/autoComplete.min.js"></script>
 <script src="{{ asset('assets/js/addressAuto.js') }}"></script>
-<script src="{{ asset('assets/js/formSubmit.js') }}"></script>
-<script src="{{ asset('assets/js/layout.js') }}"></script>
+{# <script src="{{ asset('assets/js/formSubmit.js') }}"></script> #}
+<script type="module" src="{{ asset('assets/js/form.js') }}"></script>
+{# <script type="module" src="{{ asset('assets/js/successModal.js') }}"></script> #}
+
 
 
 

@@ -4,18 +4,36 @@ html {
   margin: 0;
   padding: 0;
   scroll-behavior: smooth;
+  background-color: #f4f4f4;
+
+}
+
+header {
+  background-color: #fff;
 }
 
 h1 {
   font-size: 1.5em;
 }
 
+.center-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+}
+.center-form .card {
+  width: 100%;
+  max-width: 800px;
+}
+
 .req {
   color: red;
 }
 
+
 .shadowBox {
-  box-shadow: 0px 0px 5px 3px rgba(178, 178, 178, 0.2);
+  box-shadow: 0px 0px 4px 3px rgba(178, 178, 178, 0.2);
 }
 
 /* liste de choix adresse */
