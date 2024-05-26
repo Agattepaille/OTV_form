@@ -20,7 +20,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/', name: 'app_home', methods: ['GET', 'POST'])]
-    public function index(SendMail $sendMail, LoggerInterface $logger, Request $request, SendData $dataService, HttpClientInterface $client): Response
+    public function index(SendMail $sendMail, LoggerInterface $logger, Request $request, SendData $dataService): Response
     {
         $form = $this->createForm(otvType::class);
         $form->handleRequest($request);
