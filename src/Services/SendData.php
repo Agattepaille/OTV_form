@@ -2,21 +2,30 @@
 
 namespace App\Services;
 
-use DateTime;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
+
 
 class SendData
 {
-    public function __construct(
-        private HttpClientInterface $client,
-        private LoggerInterface $logger
-    ) {
+    private $apiKey;
+    private $params;
+    private $client;
+    private $logger;
+
+    public function __construct(string $apiKey, ContainerBagInterface $params, HttpClientInterface $client, LoggerInterface $logger)
+    {
+        $this->apiKey = $apiKey;
+        $this->params = $params;
+        $this->client = $client;
+        $this->logger = $logger;
     }
 
     public function sendData(array $data, UploadedFile $file, string $apiUrl): void
     {
+
         // Convertir les dates au format ISO 8601
         $start_Date = $data['start_Date'];
         $end_Date = $data['end_Date'];
@@ -28,11 +37,14 @@ class SendData
         try {
             // Envoyer la requête POST avec les données et le fichier
             $response = $this->client->request('POST', $apiUrl, [
+              'headers' => [
+                    'Authorization' => 'Bearer ' . $this->apiKey,
+                ],
                 'body' => [
                     'data' => $data,
                     'file' => fopen($file->getPathname(), 'r'),
                 ],
-                ]);
+            ]);
 
             // Gérer la réponse ici si nécessaire
             $statusCode = $response->getStatusCode();
