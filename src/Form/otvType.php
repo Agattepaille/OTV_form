@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,6 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
@@ -135,7 +137,10 @@ class otvType extends AbstractType
             ])
             ->add('authorization', CheckboxType::class, [
                 'label' => 'Le Propriétaire autorise la Police Municipale à pénétrer sur sa propriété dès qu\'elle le jugera utile',
-                'data' => true
+                'data' => true,
+                'constraints' => new IsTrue([
+                    'message' => 'Veuillez cocher cette case pour bénéficier de l\'Opération Tranquillité Vacances.',
+                ]),
             ])
             ->add('houseType', ChoiceType::class, [
                 'label' => 'Type de Logement',
@@ -393,7 +398,7 @@ class otvType extends AbstractType
                 ],
                 'constraints' => [
                     new File([
-                        'maxSize' => '1000k',
+                        'maxSize' => '1024k',
                         'mimeTypes' => [
                             'application/pdf',
                             'application/x-pdf',
@@ -406,7 +411,10 @@ class otvType extends AbstractType
                     ]),
                     new NotBlank(['message' => 'Veuillez sélectionner un fichier.'])
                 ]
-            ]);
+            ])
+            ->add('latitude', HiddenType::class)
+            ->add('longitude', HiddenType::class)
+            ;
     }
 
     /**

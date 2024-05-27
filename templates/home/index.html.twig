@@ -82,237 +82,249 @@
 							*</span>
 						<div class="autoComplete_wrapper">
 							{{ form_widget(form.street, {
-                                'id':'street',
-                                'type':'search',
-                                'dir':'ltr',
-                                'spellcheck':'false',
-                                'autocorrect':'off',
-                                'autocomplete':'off',
-                                'autocapitalize':'off',
-                                'aria-controls':'autoComplete_list_1',
-                                'aria-autocomplete':'both',
-                                'placeholder': 'Recherche d\'adresse'
-                            }) }}
-                            <ul id="autoComplete_list_1" role="listbox" hidden class="">
-                                <li id="autoComplete_result_0" role="option"><mark></mark></li>
-                                <li id="autoComplete_result_1" role="option"><mark></mark></li>
-                                <li id="autoComplete_result_2" role="option"><mark></mark></li>
-                                <li id="autoComplete_result_3" role="option"><mark></mark></li>
-                                <li id="autoComplete_result_4" role="option"><mark></mark></li>
-                            </ul>
+				                                'id':'street',
+				                                'type':'search',
+				                                'dir':'ltr',
+				                                'spellcheck':'false',
+				                                'autocorrect':'off',
+				                                'autocomplete':'off',
+				                                'autocapitalize':'off',
+				                                'aria-controls':'autoComplete_list_1',
+				                                'aria-autocomplete':'both',
+				                                'placeholder': 'Recherche d\'adresse'
+				                            }) }}
+				                            <ul id="autoComplete_list_1" role="listbox" hidden class="">
+				                                <li id="autoComplete_result_0" role="option"><mark></mark></li>
+				                                <li id="autoComplete_result_1" role="option"><mark></mark></li>
+				                                <li id="autoComplete_result_2" role="option"><mark></mark></li>
+				                                <li id="autoComplete_result_3" role="option"><mark></mark></li>
+				                                <li id="autoComplete_result_4" role="option"><mark></mark></li>
+				                            </ul>
+				
+				                            {{ form_row(form.streetNumber) }}
+				                            {{ form_row(form.additionalStreetNumber) }}
+				                            {{ form_row(form.additionalAddressInfo) }}
+				                            <p>
+				                                <label>Ville :
+				                                    <input id="city" class="form-control" type="text" value="Marcq-en-Baroeul" disabled/>
+				                                </label>
+				                            </p>
+				                            <p>
+				                                <label>Code postal :
+				                                    <input class="form-control" type="text" value="59700" disabled/>
+				                                </label>
+				                            </p>
+				                        </div>
+				
+				                        <div class="d-flex justify-content-end mb-3">
+				                            <button type="button" class="btn btn-primary mt-3 btn_next">Suivant</button>
+				                        </div>
+				                    </div>
+				                </div>
+				            </div> 
 
-                            {{ form_row(form.streetNumber) }}
-                            {{ form_row(form.additionalStreetNumber) }}
-                            {{ form_row(form.additionalAddressInfo) }}
-                            <p>
-                                <label>Ville :
-                                    <input id="city" class="form-control" type="text" value="Marcq-en-Baroeul" disabled/>
-                                </label>
-                            </p>
-                            <p>
-                                <label>Code postal :
-                                    <input class="form-control" type="text" value="59700" disabled/>
-                                </label>
-                            </p>
-                        </div>
-
-                        <div class="d-flex justify-content-end mb-3">
-                            <button type="button" class="btn btn-primary mt-3 btn_next">Suivant</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Section détails du logement -->
-            <div id="house_details" class="form-section">
-                <h3 class="mb-3">Lieu à surveiller</h3>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <div class="form-check mb-3">
-                            <h4>Autorisation<span class="req"> *</span></h4>
-                            {{ form_label(form.authorization, 'Le Propriétaire autorise la Police Municipale à pénétrer sur sa propriété dès qu\'elle le jugera utile', {'label_attr': {'class': 'form-check-label mr-4'}}) }}
-							{{ form_widget(form.authorization, {'attr': {'class': 'form-check-input' ~ (form.authorization.vars.data ? ' checked' : '')}}) }}
+				<!-- Section détails du logement -->
+					<div id="house_details" class="form-section"> <h3 class="mb-3">Lieu à surveiller</h3>
+					<div class="form-row">
+						<div class="form-group col-md-7">
+							<div class="form-check mb-3">
+								<h4>Autorisation<span class="req">
+										*</span>
+								</h4>
+								{{ form_label(form.authorization, 'Le Propriétaire autorise la Police Municipale à pénétrer sur sa propriété dès qu\'elle le jugera utile', {'label_attr': {'class': 'form-check-label mr-4'}}) }}
+							{{ form_widget(form.authorization, {'attr': {'id' : 'authorization', 'class': 'form-check-input' ~ (form.authorization.vars.data ? ' checked' : '')}}) }}
 							<h4 class="mt-4 mb-4">Détails sur le lieu</h4>
 							{{ form_label(form.houseType, 'Type de logement') }}
 							{{ form_widget(form.houseType) }}
 
 							<div class="radio-group">
-								{{ form_label(form.hasAlarm, 'Le logement possède-t-il une alarme ?', {'label_attr': {'class': 'legend'}}) }}<span class="req">*</span>
-								{{ form_widget(form.hasAlarm, {'attr': {'data-group-title': 'Le logement possède-t-il une alarme ?'}}) }}
+								{{ form_label(form.hasAlarm, 'Le logement possède-t-il une alarme ?', {'label_attr': {'class': 'legend'}}) }}<span class="req">
+									*</span>
+								<br>
+								{{ form_widget(form.hasAlarm) }}
 							</div>
 
 							<div class="radio-group">
-								{{ form_label(form.hasAlarmExt, 'Le logement possède-t-il une alarme extérieure ?', {'label_attr': {'class': 'legend'}}) }}<span class="req">*</span>
+								{{ form_label(form.hasAlarmExt, 'Le logement possède-t-il une alarme extérieure ?', {'label_attr': {'class': 'legend'}}) }}<span class="req">
+									*</span>
+								<br>
 								{{ form_widget(form.hasAlarmExt) }}
 							</div>
 
 							<div class="radio-group">
-								{{ form_label(form.hasCamera, 'Le logement possède-t-il une caméra ?' , {'label_attr': {'class': 'legend'}}) }}<span class="req">*</span>
+								{{ form_label(form.hasCamera, 'Le logement possède-t-il une caméra ?' , {'label_attr': {'class': 'legend'}}) }}<span class="req">
+									*</span>
+								<br>
 								{{ form_widget(form.hasCamera) }}
 							</div>
 
 							<div class="radio-group">
 								{{ form_label(form.hasAnimal, 'Présence d\'un animal ?', {'label_attr': {'class': 'legend'}}) }}<span class="req">*</span>
+								<br>
                                 {{ form_widget(form.hasAnimal) }}
-                            </div>
-                        
+							</div>
+
 						</div>
 					</div>
 
+					<div class="form-group col-md-5">
+
+						{{ form_row(form.blindsSchedule) }}
+						{{ form_row(form.lightsSchedule) }}
+						{{ form_row(form.car) }}
+						{{ form_row(form.additionalInfo) }}
+						{{ form_row(form.authorizedPersons) }}
+					</div>
+				</div>
+				<div class="d-flex justify-content-between mb-3">
+					<button type="button" class="btn btn-secondary mt-3 btn_previous">Retour</button>
+					<button type="button" class="btn btn-primary mt-3 btn_next">Suivant</button>
+				</div>
+			</div>
+
+			<!-- Section période de vacances -->
+			<div id="vacancy_dates" class="form-section">
+				<h3 class="mb-3">Période de vacances</h3>
+				<h4 class="mb-3">Durée maximale de 3 semaines consécutives,
+					<br>
+					jusqu'à 3 demandes par an</h4>
+				<div class="form-row">
 					<div class="form-group col-md-6">
-						
-                        {{ form_row(form.blindsSchedule) }}
-                        {{ form_row(form.lightsSchedule) }}
-                        {{ form_row(form.car) }}
-                        {{ form_row(form.additionalInfo) }}
-                        {{ form_row(form.authorizedPersons) }}
-                    </div>
-                </div>
-                <div class="d-flex justify-content-between mb-3">
-                    <button type="button" class="btn btn-secondary mt-3 btn_previous">Retour</button>
-                    <button type="button" class="btn btn-primary mt-3 btn_next">Suivant</button>
-                </div>
-            </div>
+						{{ form_label(form.start_Date, 'Date de début') }}<span class="req">*</span>
+						{{ form_widget(form.start_Date) }}
+					</div>
+					<div class="form-group col-md-6">
+						{{ form_label(form.end_Date, 'Date de fin') }}<span class="req">*</span>
+						{{ form_widget(form.end_Date) }}
+					</div>
+				</div>
+				<div class="d-flex justify-content-between mb-3">
+					<button type="button" class="btn btn-secondary mt-3 btn_previous">Retour</button>
+					<button type="button" class="btn btn-primary mt-3 btn_next">Suivant</button>
+				</div>
+			</div>
 
-            <!-- Section période de vacances -->
-            <div id="vacancy_dates" class="form-section">
-                <h3 class="mb-3">Période de vacances</h3>
-                <h4 class="mb-3">Durée maximale de 3 semaines consécutives</h4>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        {{ form_label(form.start_Date, 'Date de début') }}<span class="req">*</span>
-                        {{ form_widget(form.start_Date) }}
-                    </div>
-                    <div class="form-group col-md-6">
-                        {{ form_label(form.end_Date, 'Date de fin') }}<span class="req">*</span>
-                        {{ form_widget(form.end_Date) }}
-                    </div>
-                </div>
-                <div class="d-flex justify-content-between mb-3">
-                    <button type="button" class="btn btn-secondary mt-3 btn_previous">Retour</button>
-                    <button type="button" class="btn btn-primary mt-3 btn_next">Suivant</button>
-                </div>
-            </div>
+			<!-- Section Personnes à prévenir -->
+			<div id="emergencyContacts" class="form-section">
+				<h3 class="mb-3">Personnes à prévenir en cas de problème</h3>
+				<h4 class="mb-3">Si différent du demandeur</h4>
+				<!-- Personne 1 -->
+				<fieldset>
+					<div class="emergency-contact1" style="display: none; ">
 
-            <!-- Section Personnes à prévenir -->
-            <div id="emergencyContacts" class="form-section">
-                <h3 class="mb-3">Personnes à prévenir en cas de problème</h3>
-                <h4 class="mb-3">Si différent du demandeur</h4>
-                <!-- Personne 1 -->
-                 <fieldset>
-                <div class="emergency-contact1" style="display: none; ">
+						<div class="form-row">
+							<legend>Personne à prévenir n°1</legend>
+							<div class="form-group col-md-6">
+								{{ form_row(form.emergency_civility_1) }}
+								{{ form_label(form.emergency_lastname_1) }}<span class="req">
+									*</span>
+								{{ form_widget(form.emergency_lastname_1) }}
+								{{ form_label(form.emergency_firstname_1) }}<span class="req">
+									*</span>
+								{{ form_widget(form.emergency_firstname_1) }}
+							</div>
+							<div class="form-group col-md-6">
+								{{ form_label(form.emergency_mobilePhone_1, 'Téléphone mobile') }}<span class="req">
+									*</span>
+								{{ form_widget(form.emergency_mobilePhone_1) }}
+								{{ form_row(form.emergency_landlinePhone_1) }}
+								{{ form_row(form.emergency_email_1) }}
+							</div>
+						</div>
+					</div>
+				</fieldset>
 
-                 <div class="form-row">
-                    <legend>Personne à prévenir n°1</legend>
-                    <div class="form-group col-md-6">
-                        {{ form_row(form.emergency_civility_1) }}
-                        {{ form_label(form.emergency_lastname_1) }}<span class="req"> *</span>
-                        {{ form_widget(form.emergency_lastname_1) }}
-                        {{ form_label(form.emergency_firstname_1) }}<span class="req"> *</span>
-                        {{ form_widget(form.emergency_firstname_1) }}
-                    </div>
-                    <div class="form-group col-md-6">
-                        {{ form_label(form.emergency_mobilePhone_1, 'Téléphone mobile') }}<span class="req"> *</span>
-                        {{ form_widget(form.emergency_mobilePhone_1) }}
-                        {{ form_row(form.emergency_landlinePhone_1) }}
-                        {{ form_row(form.emergency_email_1) }}
-                    </div>
-                    </div>
-                </div>
-                </fieldset>
+				<!-- Personne 2 -->
+				<fieldset>
+					<div class="emergency-contact2" style="display: none; ">
 
-                <!-- Personne 2 -->
-                 <fieldset>
-                    <div class="emergency-contact2" style="display: none; ">
+						<div class="form-row">
+							<legend>Personne à prévenir n°2</legend>
+							<div class="form-group col-md-6">
+								{{ form_row(form.emergency_civility_2) }}
+								{{ form_label(form.emergency_lastname_2) }}<span class="req">
+									*</span>
+								{{ form_widget(form.emergency_lastname_2) }}
+								{{ form_label(form.emergency_firstname_2) }}<span class="req">
+									*</span>
+								{{ form_widget(form.emergency_firstname_2) }}
+							</div>
+							<div class="form-group col-md-6">
+								{{ form_label(form.emergency_mobilePhone_2, 'Téléphone mobile') }}<span class="req">
+									*</span>
+								{{ form_widget(form.emergency_mobilePhone_2) }}
+								{{ form_row(form.emergency_landlinePhone_2) }}
+								{{ form_row(form.emergency_email_2) }}
+							</div>
 
-                <div class="form-row">
-                <legend>Personne à prévenir n°2</legend>
-                    <div class="form-group col-md-6">
-                        {{ form_row(form.emergency_civility_2) }}
-                        {{ form_label(form.emergency_lastname_2) }}<span class="req"> *</span>
-                        {{ form_widget(form.emergency_lastname_2) }}
-                        {{ form_label(form.emergency_firstname_2) }}<span class="req"> *</span>
-                        {{ form_widget(form.emergency_firstname_2) }}
-                    </div>
-                    <div class="form-group col-md-6">
-                        {{ form_label(form.emergency_mobilePhone_2, 'Téléphone mobile') }}<span class="req"> *</span>
-                        {{ form_widget(form.emergency_mobilePhone_2) }}
-                        {{ form_row(form.emergency_landlinePhone_2) }}
-                        {{ form_row(form.emergency_email_2) }}
-                    </div>
-                    
-                </div>
-                </div>
-                </fieldset>
+						</div>
+					</div>
+				</fieldset>
 
-                <!-- Personne 3 -->
-                  <fieldset>
-                    <div class="emergency-contact3" style="display: none; ">
+				<!-- Personne 3 -->
+				<fieldset>
+					<div class="emergency-contact3" style="display: none; ">
 
-                <div class="form-row ">
-                <legend>Personne à prévenir n°3</legend>
+						<div class="form-row ">
+							<legend>Personne à prévenir n°3</legend>
 
-                    <div class="form-group col-md-6">
-                        {{ form_row(form.emergency_civility_3) }}
-                        {{ form_label(form.emergency_lastname_3) }}<span class="req"> *</span>
-                        {{ form_widget(form.emergency_lastname_3) }}
-                        {{ form_label(form.emergency_firstname_3) }}<span class="req"> *</span>
-                        {{ form_widget(form.emergency_firstname_3) }}
-                    </div>
-                    <div class="form-group col-md-6">
-                        {{ form_label(form.emergency_mobilePhone_3, 'Téléphone mobile') }}<span class="req"> *</span>
-                        {{ form_widget(form.emergency_mobilePhone_3) }}
-                        {{ form_row(form.emergency_landlinePhone_3) }}
-                        {{ form_row(form.emergency_email_3) }}
-                    </div>
-               
-                </div> 
-                </div>
-            </fieldset>
-<button type="button" id="addEmergencyContactBtn" class="btn btn-primary mt-3">
-    Ajouter une personne à prévenir
-</button>
-                <div class="d-flex justify-content-between mb-3">
-                    <button type="button" class="btn btn-secondary mt-3 btn_previous">Retour</button>
-                    <button type="button" class="btn btn-primary mt-3 btn_next">Suivant</button>
-                </div>
-            </div>
+							<div class="form-group col-md-6">
+								{{ form_row(form.emergency_civility_3) }}
+								{{ form_label(form.emergency_lastname_3) }}<span class="req">
+									*</span>
+								{{ form_widget(form.emergency_lastname_3) }}
+								{{ form_label(form.emergency_firstname_3) }}<span class="req">
+									*</span>
+								{{ form_widget(form.emergency_firstname_3) }}
+							</div>
+							<div class="form-group col-md-6">
+								{{ form_label(form.emergency_mobilePhone_3, 'Téléphone mobile') }}<span class="req">
+									*</span>
+								{{ form_widget(form.emergency_mobilePhone_3) }}
+								{{ form_row(form.emergency_landlinePhone_3) }}
+								{{ form_row(form.emergency_email_3) }}
+							</div>
 
-            <!-- Section Justificatif de domicile -->
-    <div id="residence_proof" class="form-section">
-                <h3 class="mb-3">Dépôt du justificatif de domicile</h3>
-                 {{ form_label(form.file) }}<span class="req"> *</span>
-                {{ form_widget(form.file) }}
-                <div class="d-flex justify-content-between mb-3">
-                    <button type="button" class="btn btn-secondary mt-3 btn_previous">Retour</button>
-                    <button type="button" class="btn btn-primary mt-3 btn_next">Suivant</button>
-                </div>
-            </div>
- 
-            <!-- Section récapitulatif -->
-             <div id="summary" class="form-section">
-                <h3 class="mb-3">Récapitulatif</h3>
-                    <div id="recapContent"></div>
-                <div class="d-flex justify-content-between mb-3">
-                    <button type="button" class="btn btn-secondary mt-3 btn_previous">Retour</button>
-                    <button id="submit" type="submit" class="btn btn-success mt-3">Soumettre</button>
-                </div>
-            </div>
-        </div>
- 
-        {{ form_end(form) }}
-    </div>
+						</div>
+					</div>
+				</fieldset>
+				<button type="button" id="addEmergencyContactBtn" class="btn btn-primary mt-3">
+					Ajouter une personne à prévenir
+				</button>
+				<div class="d-flex justify-content-between mb-3">
+					<button type="button" class="btn btn-secondary mt-3 btn_previous">Retour</button>
+					<button type="button" class="btn btn-primary mt-3 btn_next">Suivant</button>
+				</div>
+			</div>
+
+			<!-- Section Justificatif de domicile -->
+			<div id="residence_proof" class="form-section">
+				<h3 class="mb-3">Dépôt du justificatif de domicile</h3>
+				{{ form_label(form.file) }}<span class="req">
+					*</span>
+				{{ form_widget(form.file) }}
+				<div class="d-flex justify-content-between mb-3">
+					<button type="button" class="btn btn-secondary mt-3 btn_previous">Retour</button>
+					<button type="button" class="btn btn-primary mt-3 btn_next">Suivant</button>
+				</div>
+			</div>
+
+			<!-- Section récapitulatif -->
+			<div id="summary" class="form-section">
+				<h3 class="mb-3">Récapitulatif</h3>
+				<div id="recapContent"></div>
+				<div class="d-flex justify-content-between mb-3">
+					<button type="button" class="btn btn-secondary mt-3 btn_previous">Retour</button>
+					<button id="submit" type="submit" class="btn btn-success mt-3">Soumettre</button>
+				</div>
+			</div>
+		</div>
+
+		{{ form_end(form) }}
+	</div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.6/dist/autoComplete.min.js"></script>
 <script src="{{ asset('assets/js/addressAuto.js') }}"></script>
 {# <script src="{{ asset('assets/js/formSubmit.js') }}"></script> #}
 <script type="module" src="{{ asset('assets/js/form.js') }}"></script>
-{# <script type="module" src="{{ asset('assets/js/successModal.js') }}"></script> #}
-
-
-
-
-
-
-
-{% endblock %}
+{# <script type="module" src="{{ asset('assets/js/successModal.js') }}"></script> #}{% endblock %}
