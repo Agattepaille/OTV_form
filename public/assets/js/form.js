@@ -273,6 +273,17 @@ $(document).ready(function () {
         value = inputElement.prop("files")[0].name;
       }
 
+      if (field.name === "civility") {
+        if (value === "Autre") {
+          value = $('[name="otherCivility"]').val();
+        }
+        label = "Civilité";
+      }
+    
+      if (field.name === "otherCivility") {
+        return; // Skip this field, it's handled in the "civility" block
+      }
+
       if (value === "" || value === "false" || field.name === "_token" || field.name === "latitude" || field.name === "longitude") {
         return;
       }
@@ -349,4 +360,14 @@ $(document).ready(function () {
       $(this).hide();
     }
   });
+
+document.getElementById('civility').addEventListener('change', function() {
+    var otherCivilityField = document.getElementById('otherCivility');
+    if (this.value === 'Autre') {
+        otherCivilityField.style.display = 'block';
+    } else {
+        otherCivilityField.style.display = 'none';
+    }
+});
+
 });

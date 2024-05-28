@@ -53,6 +53,8 @@
 				<div class="form-row">
 					<div class="form-group col-md-6">
 						{{ form_row(form.civility) }}
+						{{ form_row(form.otherCivility) }}
+
 
 						{{ form_label(form.lastname, 'Nom') }}<span class="req">
 							*</span>
@@ -326,5 +328,5 @@
 <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.6/dist/autoComplete.min.js"></script>
 <script src="{{ asset('assets/js/addressAuto.js') }}"></script>
 {# <script src="{{ asset('assets/js/formSubmit.js') }}"></script> #}
-<script type="module" src="{{ asset('assets/js/form.js') }}"></script>
+<script src="{{ asset('assets/js/form.js') }}"></script>
 {# <script type="module" src="{{ asset('assets/js/successModal.js') }}"></script> #}{% endblock %}

@@ -35,10 +35,27 @@ class otvType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('civility', TextType::class, [
+            ->add('civility', ChoiceType::class, [
                 'label' => 'Civilité',
                 'required' => false,
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'], 
+                'choices' => [
+                    'M.' => 'M.',
+                    'Mme' => 'Mme',
+                    'Autre' => 'Autre',
+                ],
+                'placeholder' => 'Choissisez une civilité',
+
+            ])
+            ->add('otherCivility', TextType::class, [
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control mt-2', 
+                    'id' => 'otherCivility', 
+                    'style' => 'display: none;',
+                    'placeholder' => 'Ajouter une civilité',
+                ]
             ])
             ->add('lastname', TextType::class, [
                 'label' => 'Nom',
@@ -231,7 +248,7 @@ class otvType extends AbstractType
                 'attr' => ['class' => 'form-control']
             ])
             ->add('additionalInfo', TextareaType::class, [
-                'label' => 'Autres informations',
+                'label' => 'Informations supplémentaires',
                 'required' => false,
                 'attr' => ['class' => 'form-control']
             ])
