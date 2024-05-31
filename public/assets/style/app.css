@@ -27,6 +27,12 @@ h1 {
   max-width: 800px;
 }
 
+.disclaimer {
+  font-size: 0.9em;
+  color: #6c757d;
+
+}
+
 .req {
   color: red;
 }
