@@ -63,3 +63,26 @@ h1 {
   background-color: #e9ecef; /* This will highlight the selected option */
   color: #495057; /* Ensure text color is legible */
 }
+
+/* boutons radio */
+/* .radio-group {
+  margin-bottom: 20px;
+}
+
+.radio-group .form-check {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.radio-group .form-check-input {
+  margin-right: 10px;
+}
+
+.radio-group .form-check-label {
+  margin: 0;
+}
+
+.legend {
+  margin-bottom: 10px;
+} */

@@ -11,6 +11,9 @@ const autoCompleteJS = new autoComplete({
         );
         const json = await response.json();
         myobject = json.features.map(function (el) {
+           // Mettez à jour les champs cachés avec les valeurs de latitude et de longitude
+           document.getElementById('latitude').value = el.geometry.coordinates[1];
+           document.getElementById('longitude').value = el.geometry.coordinates[0];
           return {
             label: el.properties.label,
             value: el.properties.label,
@@ -61,6 +64,10 @@ const autoCompleteJS = new autoComplete({
         );
         if (result) {
           autoCompleteJS.input.value = result.name;
+          // Update the hidden fields with the selected address's latitude and longitude
+        document.getElementById('latitude').value = result.lat;
+        document.getElementById('longitude').value = result.lon;
+        console.log(result.lat);
         } else {
           autoCompleteJS.input.value = "";
         }

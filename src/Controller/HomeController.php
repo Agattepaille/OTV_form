@@ -15,12 +15,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
-    public function __construct()
+    private string $apiUrl;
+    public function __construct(string $apiUrl)
     {
+        $this->apiUrl = $apiUrl;
     }
 
     #[Route('/', name: 'app_home', methods: ['GET', 'POST'])]
-    public function index(SendMail $sendMail, LoggerInterface $logger, Request $request, SendData $dataService, HttpClientInterface $client): Response
+    public function index(SendMail $sendMail, LoggerInterface $logger, Request $request, SendData $dataService): Response
     {
         $form = $this->createForm(otvType::class);
         $form->handleRequest($request);
@@ -42,7 +44,7 @@ class HomeController extends AbstractController
             }
 
             try {
-                $apiUrl = 'https://127.0.0.1:8001/otv/new';
+                $apiUrl = $this->apiUrl;
                 $dataService->sendData($formData, $pdfFile, $apiUrl);
 
                 // Envoi de l'email de confirmation

@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,6 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
@@ -33,10 +35,27 @@ class otvType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('civility', TextType::class, [
+            ->add('civility', ChoiceType::class, [
                 'label' => 'Civilité',
                 'required' => false,
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'], 
+                'choices' => [
+                    'M.' => 'M.',
+                    'Mme' => 'Mme',
+                    'Autre' => 'Autre',
+                ],
+                'placeholder' => 'Choissisez une civilité',
+
+            ])
+            ->add('otherCivility', TextType::class, [
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control mt-2', 
+                    'id' => 'otherCivility', 
+                    'style' => 'display: none;',
+                    'placeholder' => 'Ajouter une civilité',
+                ]
             ])
             ->add('lastname', TextType::class, [
                 'label' => 'Nom',
@@ -135,7 +154,10 @@ class otvType extends AbstractType
             ])
             ->add('authorization', CheckboxType::class, [
                 'label' => 'Le Propriétaire autorise la Police Municipale à pénétrer sur sa propriété dès qu\'elle le jugera utile',
-                'data' => true
+                'data' => true,
+                'constraints' => new IsTrue([
+                    'message' => 'Veuillez cocher cette case pour bénéficier de l\'Opération Tranquillité Vacances.',
+                ]),
             ])
             ->add('houseType', ChoiceType::class, [
                 'label' => 'Type de Logement',
@@ -226,7 +248,7 @@ class otvType extends AbstractType
                 'attr' => ['class' => 'form-control']
             ])
             ->add('additionalInfo', TextareaType::class, [
-                'label' => 'Autres informations',
+                'label' => 'Informations supplémentaires',
                 'required' => false,
                 'attr' => ['class' => 'form-control']
             ])
@@ -393,7 +415,7 @@ class otvType extends AbstractType
                 ],
                 'constraints' => [
                     new File([
-                        'maxSize' => '1000k',
+                        'maxSize' => '1024k',
                         'mimeTypes' => [
                             'application/pdf',
                             'application/x-pdf',
@@ -406,7 +428,10 @@ class otvType extends AbstractType
                     ]),
                     new NotBlank(['message' => 'Veuillez sélectionner un fichier.'])
                 ]
-            ]);
+            ])
+            ->add('latitude', HiddenType::class)
+            ->add('longitude', HiddenType::class)
+            ;
     }
 
     /**

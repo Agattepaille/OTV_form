@@ -1,10 +1,14 @@
 $(document).ready(function () {
   const sections = $(".form-section");
   let currentSectionIndex = 0;
-  const maxFileSize = 5 * 1024 * 1024; // 5 MB in bytes
+  const maxFileSize = 1024 * 1024; // 1 MB in bytes
 
   sections.hide();
   sections.eq(currentSectionIndex).show();
+
+  // Set min attribute to prevent past dates
+  const now = new Date().toISOString().split("T")[0];
+  $('input[type="date"]').attr("min", now);
 
   $("#navTabs a").click(function (e) {
     e.preventDefault();
@@ -211,7 +215,7 @@ $(document).ready(function () {
         input.addClass("is-invalid");
         const errorMessage = input.next(".invalid-feedback");
         const message =
-          "Le fichier dépasse la taille maximale autorisée de 5 Mo.";
+          "Le fichier dépasse la taille maximale autorisée de 1 Mo.";
 
         if (errorMessage.length > 0) {
           errorMessage.show().text(message);
@@ -269,7 +273,18 @@ $(document).ready(function () {
         value = inputElement.prop("files")[0].name;
       }
 
-      if (value === "" || value === "false" || field.name === "_token") {
+      if (field.name === "civility") {
+        if (value === "Autre") {
+          value = $('[name="otherCivility"]').val();
+        }
+        label = "Civilité";
+      }
+    
+      if (field.name === "otherCivility") {
+        return; // Skip this field, it's handled in the "civility" block
+      }
+
+      if (value === "" || value === "false" || field.name === "_token" || field.name === "latitude" || field.name === "longitude") {
         return;
       }
 
@@ -284,12 +299,37 @@ $(document).ready(function () {
           .text()
           .trim();
         const selectedRadioLabel = selectedRadio.next("label").text().trim();
-        label = groupLegend; // Ajoutez un point d'interrogation à la fin du libellé du groupe
+        label = groupLegend;
         value = selectedRadioLabel; // Utilisez la valeur du bouton radio sélectionné
       }
 
       if (field.name === "district" && value === "default_district_value") {
         return;
+      }
+
+      // Get the 'authorization' checkbox
+      const authorizationCheckbox = document.querySelector("#authorization");
+
+      // Check if the checkbox is checked
+      if (!authorizationCheckbox.checked) {
+        valid = false;
+        authorizationCheckbox.classList.add("is-invalid");
+        const errorMessage = authorizationCheckbox.nextElementSibling;
+        const message =
+          "Veuillez cocher cette case pour bénéficier de l'Opération Tranquillité Vacances.";
+
+        if (
+          errorMessage &&
+          errorMessage.classList.contains("invalid-feedback")
+        ) {
+          errorMessage.style.display = "block";
+          errorMessage.textContent = message;
+        } else {
+          authorizationCheckbox.insertAdjacentHTML(
+            "afterend",
+            `<div class="invalid-feedback">${message}</div>`
+          );
+        }
       }
 
       // Convert date to d-m-Y format
@@ -320,4 +360,14 @@ $(document).ready(function () {
       $(this).hide();
     }
   });
+
+document.getElementById('civility').addEventListener('change', function() {
+    var otherCivilityField = document.getElementById('otherCivility');
+    if (this.value === 'Autre') {
+        otherCivilityField.style.display = 'block';
+    } else {
+        otherCivilityField.style.display = 'none';
+    }
+});
+
 });
