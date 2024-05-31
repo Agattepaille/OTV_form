@@ -44,21 +44,119 @@
 		{{ lastname }}
 		{{ firstname }},</p>
 	<p>Votre demande a été envoyée à la Police Municipale de Marcq-en-Baroeul</p>
+	<h3>Période de vacances</h3>
 	<ul>
-		<li>Période de vacances : 
-		    du
+		<li>
+			du
 			{{ startDate }}
 			au
 			{{ endDate }}</li>
+	</ul>
+	<h3>Adresse</h3>
+	<ul>
 		{% set address = [additionalStreetNumber, streetNumber, additionalAddressInfo, street] %}
-		<li>Quartier : {{ district}}</li>
-        <li>Adresse : 
-			{% for info in address %}
-				{% if info %}
-					{{ info }}
-				{% endif %}
-			{% endfor %}
-		59700 Marcq-en-Baroeul</li>
+		{% if address|filter(v => v is not null)|length > 0 %}
+			<li>Quartier :
+				{{ district}}</li>
+			<li>
+				{% for info in address %}
+					{% if info %}
+						{{ info }}
+					{% endif %}
+				{% endfor %}
+				59700 Marcq-en-Baroeul</li>
+		{% endif %}
+	</ul>
+	<h3>Coordonnées</h3>
+	<ul>
+		<li>Numéro de téléphone mobile :
+			{{ mobilePhone }}
+		</li>
+		{% if landlinePhone %}
+			<li>Numéro de téléphone fixe :{{landlinePhone }}</li>
+		{% endif %}
+		<li>Courriel :
+			{{email}}</li>
+	</ul>
+	<h3>Personnes à prévenir</h3>
+	<ul>
+		{% set emergency1 = [emergency_civility_1, emergency_lastname_1, emergency_firstname_1, emergency_mobilePhone_1, emergency_landlinePhone_1, emergency_email_1 ] %}
+		{% set emergency2 = [emergency_civility_2, emergency_lastname_2, emergency_firstname_2, emergency_mobilePhone_2, emergency_landlinePhone_2, emergency_email_2 ] %}
+		{% set emergency3 = [emergency_civility_3, emergency_lastname_3, emergency_firstname_3, emergency_mobilePhone_3, emergency_landlinePhone_3, emergency_email_3 ] %}
+		{% if emergency1|filter(v => v is not null)|length > 0 %}
+			<li>
+				{% for info in emergency1 %}
+					{% if info %}
+						{{ info }}
+					{% endif %}
+				{% endfor %}
+			</li>
+		{% endif %}
+		{% if emergency2|filter(v => v is not null)|length > 0 %}
+			<li>
+				{% for info in emergency2 %}
+					{% if info %}
+						{{ info }}
+					{% endif %}
+				{% endfor %}
+			</li>
+		{% endif %}
+		{% if emergency3|filter(v => v is not null)|length > 0 %}
+			<li>
+				{% for info in emergency3 %}
+					{% if info %}
+						{{ info }}
+					{% endif %}
+				{% endfor %}
+			</li>
+		{% endif %}
+	</ul>
+	<h3>Informations sur le lieu à surveiller :</h3>
+	<ul>
+		{% if houseType %}
+			<li>Type de logement :
+				{{ houseType }}</li>
+		{% endif %}
+		{% if car %}
+			<li>Voiture :
+				{{ car }}
+			</li>
+		{% endif %}
+		{% if lightingSchedule %}
+			<li>Horaires des éclairages :
+				{{ lightingSchedule }}</li>
+		{% endif %}
+		{% if blindsSchedule %}
+			<li>Horaires des volets automatiques :
+				{{ blindsSchedule }}</li>
+		{% endif %}
+		{% if authorizedPerson %}
+			<li>Personnes autorisées :
+				{{ authorizedPerson }}</li>
+		{% endif %}
+		{% if additionalInfo %}
+			<li>Informations supplémentaires :
+				{{ additionalInfo }}</li>
+		{% endif %}
+		{% if hasAnimal %}
+			<li>Présence d'un animal :
+				{{ hasAnimal }}
+			</li>
+		{% endif %}
+		{% if hasAlarm %}
+			<li>Alarme :
+				{{ hasAlarm }}</li>
+		{% endif %}
+		{% if hasAlarmExt %}
+			<li>Alarme extérieure :
+				{{ hasAlarmExt }}</li>
+		{% endif %}
+		{% if hasCamera %}
+			<li>
+				{{ hasCamera }}</li>
+		{% endif %}
+
+
 	</ul>
 
 	<table width="100%">
