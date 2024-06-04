@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+{# {% form_theme form 'form/fields.html.twig' %} #}
+
+
+{% block title %}marcq-en-baroeul - formulaire
+{% endblock %}
+
+
+{% block body %}
+
+	<div class="container-fluid center-form flash">
+		{# <div class="shadowBox pr-5 m-5 card"> #}
+			<div class="shadowBox alert alert-success card" role="alert">
+				<h4 class="alert-heading">Votre demande a bien été envoyée</h4>
+				<p>Vous allez recevoir un email récapitulatif à l'adresse renseignée sur le formulaire.</p>
+				<hr>
+				<p class="mb-0">Si vous souhaitez retourner sur le formulaire, veuillez cliquer 
+				<a href="{{ path('app_home')}}" class="linkToForm"> ici</a>. Sinon vous pouvez fermer cette fenêtre.</p>
+			</div>
+		{# </div> #}
+	</div>
+{% endblock %}

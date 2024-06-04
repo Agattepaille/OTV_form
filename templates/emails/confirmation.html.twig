@@ -37,13 +37,19 @@
 	.logo img {
 		max-width: 60px;
 	}
+
+	hr {
+		width:60%; 
+		margin: 20px auto;
+		border: 1px solid #f4f4f4;
+	}
 </style>
 <div class="container">
 	<h2>Confirmation de demande d'Opération Tranquillité Vacances</h2>
 	<p>Bonjour
 		{{ lastname }}
 		{{ firstname }},</p>
-	<p>Votre demande a été envoyée à la Police Municipale de Marcq-en-Baroeul</p>
+	<p>Votre demande a été envoyée à la Police Municipale de Marcq-en-Baroeul. Vous trouverez ci-dessous le récapitulatif de votre demande.</p>
 	<h3>Période de vacances</h3>
 	<ul>
 		<li>
@@ -76,41 +82,44 @@
 			<li>Numéro de téléphone fixe :{{landlinePhone }}</li>
 		{% endif %}
 		<li>Courriel :
-			{{email}}</li>
+			{{courriel}}</li>
 	</ul>
-	<h3>Personnes à prévenir</h3>
-	<ul>
-		{% set emergency1 = [emergency_civility_1, emergency_lastname_1, emergency_firstname_1, emergency_mobilePhone_1, emergency_landlinePhone_1, emergency_email_1 ] %}
-		{% set emergency2 = [emergency_civility_2, emergency_lastname_2, emergency_firstname_2, emergency_mobilePhone_2, emergency_landlinePhone_2, emergency_email_2 ] %}
-		{% set emergency3 = [emergency_civility_3, emergency_lastname_3, emergency_firstname_3, emergency_mobilePhone_3, emergency_landlinePhone_3, emergency_email_3 ] %}
-		{% if emergency1|filter(v => v is not null)|length > 0 %}
-			<li>
-				{% for info in emergency1 %}
-					{% if info %}
-						{{ info }}
-					{% endif %}
-				{% endfor %}
-			</li>
-		{% endif %}
-		{% if emergency2|filter(v => v is not null)|length > 0 %}
-			<li>
-				{% for info in emergency2 %}
-					{% if info %}
-						{{ info }}
-					{% endif %}
-				{% endfor %}
-			</li>
-		{% endif %}
-		{% if emergency3|filter(v => v is not null)|length > 0 %}
-			<li>
-				{% for info in emergency3 %}
-					{% if info %}
-						{{ info }}
-					{% endif %}
-				{% endfor %}
-			</li>
-		{% endif %}
-	</ul>
+	{% set emergency1 = [emergency_civility_1, emergency_lastname_1, emergency_firstname_1, emergency_mobilePhone_1, emergency_landlinePhone_1, emergency_email_1 ] %}
+	{% set emergency2 = [emergency_civility_2, emergency_lastname_2, emergency_firstname_2, emergency_mobilePhone_2, emergency_landlinePhone_2, emergency_email_2 ] %}
+	{% set emergency3 = [emergency_civility_3, emergency_lastname_3, emergency_firstname_3, emergency_mobilePhone_3, emergency_landlinePhone_3, emergency_email_3 ] %}
+	{% if emergency1|filter(v => v is not null)|length > 0 or emergency2|filter(v => v is not null)|length > 0 or emergency3|filter(v => v is not null)|length > 0 %}
+		<h3>Personnes à prévenir</h3>
+		<ul>
+			{% if emergency1|filter(v => v is not null)|length > 0 %}
+				<li>
+					{% for info in emergency1 %}
+						{% if info %}
+							{{ info }}
+						{% endif %}
+					{% endfor %}
+				</li>
+			{% endif %}
+			{% if emergency2|filter(v => v is not null)|length > 0 %}
+				<li>
+					{% for info in emergency2 %}
+						{% if info %}
+							{{ info }}
+						{% endif %}
+					{% endfor %}
+				</li>
+			{% endif %}
+			{% if emergency3|filter(v => v is not null)|length > 0 %}
+				<li>
+					{% for info in emergency3 %}
+						{% if info %}
+							{{ info }}
+						{% endif %}
+					{% endfor %}
+				</li>
+			{% endif %}
+		</ul>
+	{% endif %}
+
 	<h3>Informations sur le lieu à surveiller :</h3>
 	<ul>
 		{% if houseType %}
@@ -122,17 +131,17 @@
 				{{ car }}
 			</li>
 		{% endif %}
-		{% if lightingSchedule %}
+		{% if lightsSchedule %}
 			<li>Horaires des éclairages :
-				{{ lightingSchedule }}</li>
+				{{ lightsSchedule }}</li>
 		{% endif %}
 		{% if blindsSchedule %}
 			<li>Horaires des volets automatiques :
 				{{ blindsSchedule }}</li>
 		{% endif %}
-		{% if authorizedPerson %}
+		{% if authorizedPersons %}
 			<li>Personnes autorisées :
-				{{ authorizedPerson }}</li>
+				{{ authorizedPersons }}</li>
 		{% endif %}
 		{% if additionalInfo %}
 			<li>Informations supplémentaires :
@@ -152,12 +161,13 @@
 				{{ hasAlarmExt }}</li>
 		{% endif %}
 		{% if hasCamera %}
-			<li>
+			<li>Caméra :
 				{{ hasCamera }}</li>
 		{% endif %}
 
 
 	</ul>
+	<hr>
 
 	<table width="100%">
 		<tr>
