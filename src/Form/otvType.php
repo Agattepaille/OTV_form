@@ -429,13 +429,13 @@ class otvType extends AbstractType
                     new NotBlank(['message' => 'Veuillez sélectionner un fichier.'])
                 ]
             ])
-/*             ->add('rgpd', CheckboxType::class, [
+           ->add('rgpd', CheckboxType::class, [
                 'label' => 'J\'accepte que mes données soient utilisées pour le traitement de ma demande conformément à la politique de confidentialité du site.',
                 'data' => true,
                 'constraints' => new IsTrue([
                     'message' => 'Veuillez cocher cette case pour bénéficier de l\'Opération Tranquillité Vacances.',
                 ]), 
-            ])*/
+            ])
             ->add('latitude', HiddenType::class)
             ->add('longitude', HiddenType::class)
             ;
@@ -448,7 +448,6 @@ class otvType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_protection' => true,
-            // 'data_class' => Residents::class,
         ]);
     }
 

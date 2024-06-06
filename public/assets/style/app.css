@@ -57,6 +57,14 @@ h1 {
 }
 
 
+/* checkox rgpd */
+.inline-form-element {
+  display: flex;
+  align-items: center;
+}
+.inline-form-element label {
+  margin-right: 10px;
+}
 
 /* liste de choix adresse */
 #autoComplete_list_1 {
