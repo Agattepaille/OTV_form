@@ -52,8 +52,6 @@ class HomeController extends AbstractController
                 return $this->redirectToRoute('app_home');
             }
 
-            // $this->addFlash('success', 'Votre demande a bien été envoyée.');
-            // return $this->redirectToRoute('app_home');
             return $this->render('home/success.html.twig');
 
         }
@@ -89,7 +87,7 @@ class HomeController extends AbstractController
             return true;
         } catch (\Exception $e) {
             $logger->error('Email sending failed: ' . $e->getMessage());
-            $this->addFlash('error', 'Échec de l\'envoi de l\'email de confirmation.');
+            $this->addFlash('error', 'Échec de l\'envoi de l\'email de confirmation. Veuillez contacter la police municipale pour confirmer la réception de  votre demande.');
             return false;
         }
     }

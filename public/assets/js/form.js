@@ -284,7 +284,7 @@ $(document).ready(function () {
         return; // Skip this field, it's handled in the "civility" block
       }
 
-      if (value === "" || value === "false" || field.name === "_token" || field.name === "latitude" || field.name === "longitude") {
+      if (value === "" || value === "false" || field.name === "_token" || field.name === "latitude" || field.name === "longitude" || field.name === "rgpd") {
         return;
       }
 
